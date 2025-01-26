@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.5s ease;
+        }
+
+        .todo-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 1rem;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .todo-container h1 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .todo-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .todo-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .todo-list li.show {
+            opacity: 1;
+        }
+
+        .todo-list li.done {
+            text-decoration: line-through;
+            background-color: #d3ffd3;
+        }
+
+        .todo-list li button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .todo-list li button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Adding some emoji style */
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        /* Animation for fade-in */
+        .fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="todo-container">
+    <h1>To-Do List ✨</h1>
+    <input type="text" id="todoInput" class="todo-input" placeholder="Add a new task... 🎯" />
+    <ul class="todo-list" id="todoList"></ul>
+</div>
+
+<script>
+    // JavaScript for To-Do List App
+    document.getElementById("todoInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            addTask();
+        }
+    });
+
+    function addTask() {
+        const input = document.getElementById("todoInput");
+        const newTaskText = input.value.trim();
+        
+        if (newTaskText === "") {
+            return; // Don't add empty tasks
+        }
+
+        const todoList = document.getElementById("todoList");
+        
+        const newTodoItem = document.createElement("li");
+        newTodoItem.classList.add("fade-in");
+        newTodoItem.innerHTML = `
+            <span class="emoji">📝</span>${newTaskText} 
+            <button onclick="removeTask(this)">❌</button>`;
+        
+        newTodoItem.addEventListener("click", function() {
+            newTodoItem.classList.toggle("done");
+        });
+
+        todoList.appendChild(newTodoItem);
+        input.value = ""; // Clear the input field
+    }
+
+    function removeTask(button) {
+        const todoItem = button.parentElement;
+        todoItem.classList.add("fade-out");
+        setTimeout(() => todoItem.remove(), 500); // Remove after fade-out animation
+    }
+</script>
+
+</body>
+</html>
